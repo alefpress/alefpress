@@ -1,11 +1,17 @@
-Scribus - Open Source Desktop Publishing 
+Alefpress - Open Source Desktop Publishing 
 ==============================
-[![Build Status](https://travis-ci.org/scribusproject/scribus.svg?branch=master)](https://travis-ci.org/scribusproject/scribus) [![Coverity Scan Build Status](https://scan.coverity.com/projects/216/badge.svg)](https://scan.coverity.com/projects/scribus)
 
-## Status
-This README.md file is geared toward the Scribus github repository which serves as a mirror for the Scribus Subversion repository `svn://scribus.net/trunk/Scribus`. The Scribus development team prefer svn over git. This mirror is updated manually.
+## About Alefpress
+Alefpress is a downstream distribution from scribus.  One of the reasons for that – allow users to distinguish our builds from official ones to avoid confusions. Also, this way of differentiating is a necessary requirement to allow us apply for some development funding programs, which gives us a chance to get an extra funding for scribus development.
 
-Complex text layout features available right now:
+This step shouldn’t be considered as “forking” in terms of “schism” (as given by Wikipedia  – “a split in the developer community”). We plan to continue submitting our changes to official scribus repository via pull requests and looking forward for further collaboration.
+
+## Alefpress's Goals
+- Better support for non-Latin Languages.
+- make Scribus stable & reliable.
+
+## History
+We start scribus development in 2015 as HOST-Oman project. We succeed at landing Complex text layout features into Scribus 1.5.3. These features are but not limited to:
 - support RTL languages (Arabic, Persian, Urdu, Hebrew).
 - support Bi-directional text.
 - support Indic Scripts and Languages.
@@ -13,20 +19,8 @@ Complex text layout features available right now:
 - support OpenType Font Features.
 - allow customization of hyphenation character
 - add ability to link selected text frames directly 
-- Loading and render long docs are faster. 
+- Loading and render long docs are faster.
+
 
 ## Contributing
-For Bugs and patches: please send them to the [Scribus Bugtracker](http://bugs.scribus.net) to be evaluated. If you do send a PR here, someone will either ask you to do the same or submit the PR as a patch to the bugtracker for you.
-
-## Links
-|Resource | Address |  
-|:---------|:---------|  
-|Website |http://www.scribus.net |  
-|Wiki | http://wiki.scribus.net |  
-|List | http://lists.scribus.net |  
-|Forums | http://forums.scribus.net | 
-|WebSVN | http://scribus.net/websvn |
-|SVN | svn://scribus.net/trunk/Scribus |  
-|IRC | irc://scribus@chat.freenode.net |  
-
-
+Once you have made a change that you are happy with, contribute it back, we’ll be happy to integrate it! Just fork the repository and make a pull request.
