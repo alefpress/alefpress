@@ -57,7 +57,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 message(STATUS "Shared Library Flags: ${CMAKE_SHARED_LIBRARY_C_FLAGS}")
 
 #Project Setup
-project(scribus)
+project(alefpress)
 #Set our version values
 #Final version is ${VERSION} = ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}.${VERSION_SUFFIX}
 #where VERSION_SUFFIX is of the form "", "svn" or "Nsvn" (N being the minor patch level)
