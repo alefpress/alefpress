@@ -2,7 +2,6 @@ from PIL import Image,ImageMath
 import unittest
 import subprocess
 import os
-import glob
 
 def convert_to_comparable(a, b):
     new_a, new_b = a, b
@@ -18,39 +17,52 @@ def convert_to_comparable(a, b):
 
 class ScribusTestCase(unittest.TestCase):
             
-    def assert_image_equal(self, a, b, msg=None):
+    def assert_image_similar(self, a, b, epsilon, msg=None):
+        epsilon = float(epsilon)
         self.assertEqual(
             a.mode, b.mode,
             msg or "got mode %r, expected %r" % (a.mode, b.mode))
         self.assertEqual(
             a.size, b.size,
             msg or "got size %r, expected %r" % (a.size, b.size))
-        if a.tobytes() != b.tobytes():
-            self.fail(msg or "got different content")
+
+        a, b = convert_to_comparable(a, b)
+
+        diff = 0
+        for ach, bch in zip(a.split(), b.split()):
+            chdiff = ImageMath.eval("abs(a - b)", a=ach, b=bch).convert('L')
+            diff += sum(i * num for i, num in enumerate(chdiff.histogram()))
+
+        ave_diff = float(diff)/(a.size[0]*a.size[1])
+        self.assertGreaterEqual(
+            epsilon, ave_diff,
+            (msg or '') +
+            " average pixel value difference %.4f > epsilon %.4f" % (
+                ave_diff, epsilon))
     
     def assert_image (self, image_name):
         img1 = Image.open('images/'+image_name)
         img2 = Image.open('out/'+ image_name)
-        self.assert_image_equal(img1, img2)
+        self.assert_image_similar(img1, img2,2.5)
 
          
 class TestScribusFrame(ScribusTestCase):
 
           ##LEFT TO RIGHT testing
          def test_text_LTR_left(self):
-           self.assert_image('LTR_left.png')
+           self.assert_image('test_text_LTR.png')
            
          def test_text_LTR_center(self):
-           self.assert_image('LTR_center.png')
+           self.assert_image('test_text_center.png')
             
          def test_text_LTR_right(self):
-          self.assert_image('LTR_center.png')   
+          self.assert_image('test_text_right.png')
             
          def test_text_LTR_justified(self):
-           self.assert_image('LTR_justifid.png')
+           self.assert_image('test_text_justified.png')
         
          def test_text_LTR_Forcedjustified(self):
-          self.assert_image('LTR_Forcedjustified.png')
+          self.assert_image('test_text_Forcedjustified.png')
        
          ####RIGHT TO LEFT testing
          def test_text_RTL_left(self):
@@ -210,15 +222,15 @@ class TestScribusFrame(ScribusTestCase):
            
           ##Orphans and widows keep next paragraph
          def test_Orphans_Widows_KeepNextPar(self):
-           self.assert_image('Orphans_Widows_KeepNextPar.png')
+           self.assert_image('Orphans_Widows_KeepNextParagraph.png')
            
            ###star_test
          def test_star(self):
-           self.assert_image('star_test.png')
+           self.assert_image('Star_test.png')
            
            ###test polygon Test
          def test_Polygon(self):
-           self.assert_image('polygon.png') 
+           self.assert_image('test_polygon.png')
            
            ###insert picture in image Frame Test
          def test_insert_pic_imageFrame(self):
