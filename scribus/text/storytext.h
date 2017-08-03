@@ -30,6 +30,7 @@ pageitem.cpp  -  description
 #include <QList>
 #include <cassert>
 #include "unicode/brkiter.h"
+#include <unicode/translit.h>
 #include "itextsource.h"
 
 #include "marks.h"
@@ -104,8 +105,11 @@ class SCRIBUS_API StoryText : public QObject, public SaxIO, public ITextSource
  	void clear();
 	StoryText copy() const;
 
+	// Find and select text in story
+	int find(const QString &str, int from = 0, Qt::CaseSensitivity cs = Qt::CaseSensitive);
+
 	// Find text in story
-	int indexOf(const QString &str, int from = 0, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
+	int indexOf(const QString &str, int from = 0, Qt::CaseSensitivity cs = Qt::CaseSensitive, int* pLen = 0) const;
 	int indexOf(QChar ch, int from = 0, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
 	
 	// Add, change, replace
@@ -300,6 +304,7 @@ private:
 	static BreakIterator* m_wordIterator;
 	static BreakIterator* m_sentenceIterator;
 	static BreakIterator* m_lineIterator;
+	static Transliterator* m_transliterator;
 //	int m_firstFrameItem, m_lastFrameItem;
 //	QList<LineSpec> m_lines;
 //	bool m_validLayout;
