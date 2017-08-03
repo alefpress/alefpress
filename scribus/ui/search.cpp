@@ -776,9 +776,9 @@ void SearchReplace::slotDoSearch()
 void SearchReplace::slotReplace()
 {
 //	if (m_itemMode)
-//		m_doc->view()->slotDoCurs(false);
-    m_doc->m_Selection->clear();
-    m_doc->m_Selection->addItem(m_item);
+	//m_doc->view()->slotDoCurs(false);
+	m_doc->m_Selection->clear();
+	m_doc->m_Selection->addItem(m_item);
 	slotDoReplace();
 	if (m_itemMode)
 	{
@@ -793,12 +793,11 @@ void SearchReplace::slotDoReplace()
 	{
 		QString repl, sear;
 		int cs, cx;
-		int textLen = 0;
+		int textLen = m_item->itemText.lengthOfSelection();
 		if (RText->isChecked())
 		{
 			repl = RTextVal->text();
 			sear = STextVal->text();
-			textLen = m_item->itemText.lengthOfSelection();
 			if (textLen == repl.length())
 			{
 				for (cs = 0; cs < textLen; ++cs)
@@ -821,9 +820,9 @@ void SearchReplace::slotDoReplace()
 				}
 			}
 		}
-		m_item->itemText.deselectAll();
 		if (repl.length() > 0)
 		{
+			m_item->itemText.deselectAll();
 			m_item->itemText.select(m_replStart, repl.length());
 			m_item->itemText.setCursorPosition(m_replStart + repl.length());
 		}
