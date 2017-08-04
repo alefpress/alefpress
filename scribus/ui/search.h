@@ -125,7 +125,6 @@ public slots:
 signals:
 	void NewFont(const QString&);
 	void NewAbs(int);
-	void selectElementByItem(PageItem *ite, bool single = true);
 
 protected:
 	PageItem*   m_item;

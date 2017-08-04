@@ -8526,7 +8526,6 @@ void ScribusMainWindow::SearchText()
 	SearchReplace* dia = new SearchReplace(this, doc, currItem, true , SearchCur);
 	connect(dia, SIGNAL(NewFont(const QString&)), this, SLOT(SetNewFont(const QString&)));
 	connect(dia, SIGNAL(NewAbs(int)), this, SLOT(setAlignmentValue(int)));
-	connect(dia, SIGNAL(selectElementByItem(PageItem*,bool)), this, SLOT(selectItemsFromOutlines(PageItem*, bool)));
 	dia->exec();
 	dia->disconnect();
 	delete dia;
