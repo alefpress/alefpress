@@ -425,6 +425,13 @@ int StoryText::indexOf(const QString &str, int from, Qt::CaseSensitivity cs, int
 	else {
 		bool qCharIsDiacritic, curCharIsDiacritic;
 		int i = indexOf(ch, from, cs);
+
+		//Initialize icu::Transliterator
+		UErrorCode nStatus = U_ZERO_ERROR;
+		m_transliterator = icu::Transliterator::createInstance("NFD; [:M:] Remove; NFC", UTRANS_FORWARD, nStatus);
+		if (U_FAILURE(nStatus))
+			m_transliterator = nullptr;
+
 		while (i >= 0 && i < (int) d->len)
 		{
 			int index = 0;
@@ -434,8 +441,17 @@ int StoryText::indexOf(const QString &str, int from, Qt::CaseSensitivity cs, int
 			{
 				const QChar &qChar = qStr.at(index);
 				const QChar &curChar = d->at(index + diacriticsCounter + i)->ch;
-				qCharIsDiacritic   = SpecialChars::isArabicModifierLetter(qChar.unicode()) | (u_charType(qChar.unicode()) == UCharCategory::U_NON_SPACING_MARK);
-				curCharIsDiacritic = SpecialChars::isArabicModifierLetter(curChar.unicode()) | (u_charType(curChar.unicode()) == UCharCategory::U_NON_SPACING_MARK);
+				if (!m_transliterator)
+					return -1;
+
+				UnicodeString icuqChar(qChar.unicode());
+				m_transliterator->transliterate(icuqChar);
+
+				UnicodeString icuCurChar(curChar.unicode());
+				m_transliterator->transliterate(icuCurChar);
+
+				qCharIsDiacritic   = SpecialChars::isArabicModifierLetter(qChar.unicode()) | icuqChar.isEmpty();
+				curCharIsDiacritic = SpecialChars::isArabicModifierLetter(curChar.unicode()) | icuCurChar.isEmpty();
 
 				if (qCharIsDiacritic || curCharIsDiacritic)
 				{

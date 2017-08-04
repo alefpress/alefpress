@@ -30,6 +30,7 @@ pageitem.cpp  -  description
 #include <QList>
 #include <cassert>
 #include "unicode/brkiter.h"
+#include <unicode/translit.h>
 #include "itextsource.h"
 
 #include "marks.h"
@@ -303,6 +304,7 @@ private:
 	static BreakIterator* m_wordIterator;
 	static BreakIterator* m_sentenceIterator;
 	static BreakIterator* m_lineIterator;
+	static Transliterator* m_transliterator;
 //	int m_firstFrameItem, m_lastFrameItem;
 //	QList<LineSpec> m_lines;
 //	bool m_validLayout;
